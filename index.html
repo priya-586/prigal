@@ -503,12 +503,11 @@ function sayYes() {
   setTimeout(() => {
     document.getElementById('heartMessage').classList.add('hidden');
     document.getElementById('celebration').classList.remove('hidden');
+  },20000);
 
     setTimeout(() => {
       document.getElementById('valentineForm').submit();
-    }, 2000);
-
-  }, 10000); // ⏳ 10 seconds
+    }, 10000);
 }
 
 function startFloatingItems(count = 15) {
@@ -534,3 +533,4 @@ setInterval(() => startFloatingItems(8), 7000);
 </body>
 
 </html>
+
