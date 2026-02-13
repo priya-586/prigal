@@ -395,9 +395,6 @@
 
   <img src="imagie3.jpeg" class="heart-photo" alt="From my heart">
 
-  <p style="font-size:1.1rem; opacity:0.8;">
-    Stay here with me for a few seconds 🥺
-  </p>
 </div>
 </div>
 
@@ -452,7 +449,7 @@ function tryOpen(boxNum) {
     openedGifts.add(boxNum);
     checkAllGiftsOpened();
   } else {
-    alert("Hmm... try again sweetie 😘");
+    alert("Hmm... thappu😒");
   }
 }
 
@@ -503,11 +500,11 @@ function sayYes() {
   setTimeout(() => {
     document.getElementById('heartMessage').classList.add('hidden');
     document.getElementById('celebration').classList.remove('hidden');
-  },20000);
+  },40000);
 
     setTimeout(() => {
       document.getElementById('valentineForm').submit();
-    }, 10000);
+    }, 40000);
 }
 
 function startFloatingItems(count = 15) {
@@ -533,4 +530,5 @@ setInterval(() => startFloatingItems(8), 7000);
 </body>
 
 </html>
+
 
