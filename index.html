@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>💌 Hey, My Special Person! 💕</title>
+<style>
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  .container {
+    max-width: 760px;
+    padding: 25px 20px;
+    background: rgba(255,255,255,0.94);
+    border-radius: 24px;
+    text-align: center;
+    z-index: 10;
+    box-shadow: 0 12px 50px rgba(0,0,0,0.18);
+  }
+
+  .hidden { display: none !important; }
+
+  .options {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+
+  button.option {
+    padding: 13px 28px;
+    font-size: 1.22rem;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.22s, box-shadow 0.22s;
+  }
+
+  button.option:hover {
+    transform: scale(1.07);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  }
+
+  #yesBtn {
+    background: #e74c3c;
+    color: white;
+    font-weight: bold;
+  }
+
+  #noBtn {
+    background: #95a5a6;
+    color: white;
+  }
+
+  .celebration {
+    font-size: 3.4rem;
+    color: #e74c3c;
+    margin: 24px 0;
+  }
+
+  .float-item {
+    position: absolute;
+    font-size: 2.8rem;
+    pointer-events: none;
+    user-select: none;
+    opacity: 0;
+    z-index: 2;
+    animation: floatUp linear forwards;
+  }
+
+  @keyframes floatUp {
+    0%   { transform: translateY(120vh) translateX(var(--drift, 0)) rotate(0deg); opacity: 0; }
+    15%  { opacity: 0.9; }
+    85%  { opacity: 0.9; }
+    100% { transform: translateY(-35vh) translateX(var(--drift, 0)) rotate(1080deg); opacity: 0; }
+  }
+
+  /* ──────── Progress ──────── */
+  .progress-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 20px 0 35px;
+  }
+
+  .progress-step {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #eee;
+    border: 3px solid #e74c3c44;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: #aaa;
+    transition: all 0.5s ease;
+  }
+
+  .progress-step.opened {
+    background: #e74c3c;
+    border-color: #c0392b;
+    color: white;
+    transform: scale(1.18);
+    box-shadow: 0 0 18px rgba(231,76,60,0.55);
+  }
+
+  /* ──────── Gifts ──────── */
+  .gift-container {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-bottom: 50px;
+  }
+
+  .gift-box {
+    width: 250px;
+    height: 280px;
+    position: relative;
+    perspective: 1200px;
+  }
+
+  .gift-body {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(145deg, #ff758c, #ff7eb3);
+    border-radius: 18px 18px 10px 10px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 14px 40px rgba(0,0,0,0.22);
+  }
+
+  .gift-lid {
+    position: absolute;
+    width: 100%;
+    height: 34%;
+    background: linear-gradient(145deg, #e74c3c, #c0392b);
+    border-radius: 18px 18px 0 0;
+    top: -30%;
+    left: 0;
+    transform-origin: bottom;
+    transition: transform 0.9s;
+    z-index: 4;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+  }
+
+  .gift-box:hover .gift-lid {
+    transform: rotateX(60deg) translateY(-18px);
+  }
+
+  .gift-box:hover .gift-body {
+    transform: translateY(18px) rotateX(-10deg);
+  }
+
+  .ribbon {
+    position: absolute;
+    background: linear-gradient(to right, #fff, #ffeb3b, #fff);
+    width: 100%;
+    height: 20px;
+    top: 48%;
+    transform: translateY(-50%);
+    z-index: 3;
+  }
+
+  .lock-screen, .gift-content {
+    position: absolute;
+    inset: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    background: rgba(0,0,0,0.18);
+    z-index: 5;
+  }
+
+  .lock-screen input {
+    margin: 12px 0 18px;
+    padding: 10px 14px;
+    width: 85%;
+    border-radius: 12px;
+    border: none;
+    font-size: 1rem;
+  }
+
+  .lock-screen button {
+    padding: 11px 36px;
+    border-radius: 999px;
+    background: #2ecc71;
+    color: white;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    font-size: 1.05rem;
+  }
+
+  .lock-screen button:hover {
+    background: #27ae60;
+    transform: scale(1.06);
+  }
+
+  .gift-content img {
+    max-width: 100%;
+    max-height: 62%;
+    border-radius: 14px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  }
+
+  #continueToProposal {
+    margin: 50px auto 60px;
+    padding: 18px 70px;
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(135deg, #ff6b81, #e74c3c);
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    box-shadow: 0 8px 30px rgba(231,76,60,0.45);
+    transition: all 0.3s;
+    display: none;
+  }
+
+  #continueToProposal.visible {
+    display: block;
+  }
+
+  #continueToProposal:hover {
+    transform: translateY(-3px) scale(1.04);
+    box-shadow: 0 14px 40px rgba(231,76,60,0.6);
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <form id="valentineForm" action="https://formspree.io/f/xvzbkgev" method="POST">
+    <input type="hidden" name="Q1" id="ans1">
+    <input type="hidden" name="Q2" id="ans2">
+    <input type="hidden" name="Q3" id="ans3">
+    <input type="hidden" name="Q4" id="ans4">
+    <input type="hidden" name="Q5" id="ans5">
+    <input type="hidden" name="Proposal Answer" id="proposalAns">
+
+    <h1>💖 Hey my forever special one! 💖</h1>
+
+    <div id="quizPart">
+      <div id="q1">
+        <p>Will you be really happy if I become your life partner? 🥰</p>
+        <div class="options">
+          <button type="button" class="option" onclick="saveAnswer(1,'Yes')">Yes!</button>
+          <button type="button" class="option" onclick="saveAnswer(1,'Maybe')">Maybe...</button>
+        </div>
+      </div>
+
+      <div id="q2" class="hidden">
+        <p>What is my love language 🎀</p>
+        <div class="options">
+          <button type="button" class="option" onclick="saveAnswer(2,'Quality time')">Quality time</button>
+          <button type="button" class="option" onclick="saveAnswer(2,'Priority')">Priority</button>
+          <button type="button" class="option" onclick="saveAnswer(2,'Biting & kissing')">Biting & kissing</button>
+        </div>
+      </div>
+
+      <div id="q3" class="hidden">
+        <p>Would you share your favorite dessert with me? 🍰</p>
+        <div class="options">
+          <button type="button" class="option" onclick="saveAnswer(3,'Of course')">Of course!</button>
+          <button type="button" class="option" onclick="saveAnswer(3,'50-50')">Maybe 50-50 😅</button>
+        </div>
+      </div>
+
+      <div id="q4" class="hidden">
+        <p>Our favourite date? ❤️</p>
+        <div class="options">
+          <button type="button" class="option" onclick="saveAnswer(4,'Movie')">Movie!</button>
+          <button type="button" class="option" onclick="saveAnswer(4,'See queen')">See queen</button>
+          <button type="button" class="option" onclick="saveAnswer(4,'Trampoline')">Trampoline</button>
+        </div>
+      </div>
+
+      <div id="q5" class="hidden">
+        <p>One thing that makes you fall for me again and again 🥰</p>
+        <textarea id="answer5" rows="4" style="width:100%; padding:12px; border-radius:12px; border:1px solid #ddd; font-size:1rem;"></textarea>
+        <br><br>
+        <button type="button" class="option" onclick="saveTextAnswer()">Next ❤️</button>
+      </div>
+    </div>
+
+    <div id="giftsSection" class="hidden">
+      <h2 style="color:#e74c3c; margin: 20px 0 10px;">Little surprises just for you 🎁✨</h2>
+
+      <div class="progress-container">
+        <div class="progress-step" id="prog1">1</div>
+        <div class="progress-step" id="prog2">2</div>
+        <div class="progress-step opened" id="prog3">❤️</div>
+      </div>
+
+      <div class="gift-container">
+        <!-- Gift 1 -->
+        <div class="gift-box" id="gift1">
+          <div class="gift-lid"></div>
+          <div class="gift-body">
+            <div class="ribbon"></div>
+            <div class="lock-screen" id="lock1">
+              <p>What was the first thing<br>you gifted me? 🧐</p>
+              <input type="text" id="pass1" placeholder="your answer..." />
+              <button type="button" onclick="tryOpen(1)">Open 🎁</button>
+            </div>
+            <div class="gift-content hidden" id="content1">
+              <img src="D:\bavaproj\imagie.jpeg" alt="Our moment">
+              <p style="margin-top:12px;">Remember this day? 🥰</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gift 2 -->
+        <div class="gift-box" id="gift2">
+          <div class="gift-lid"></div>
+          <div class="gift-body">
+            <div class="ribbon"></div>
+            <div class="lock-screen" id="lock2">
+              <p>Colour of my dress the first<br>time we took a room? 🌸</p>
+              <input type="text" id="pass2" placeholder="colour..." />
+              <button type="button" onclick="tryOpen(2)">Open 🎁</button>
+            </div>
+            <div class="gift-content hidden" id="content2">
+              <img src="D:\bavaproj\imagie2.jpeg" alt="Love letter">
+              <p style="margin-top:12px;">Words straight from my heart... 💕</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gift 3 – always open -->
+        <div class="gift-box" id="gift3">
+          <div class="gift-lid"></div>
+          <div class="gift-body">
+            <div class="ribbon"></div>
+            <div class="gift-content">
+              <h3 style="color:white; margin:12px 0;">SURPRISE!</h3>
+              <p style="font-size:2.6rem; margin:18px 0;">🤗 HUG ATTACK 🤗</p>
+              <p>Come here! Tightest virtual hug 💖</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button id="continueToProposal" type="button" onclick="goToProposal()">
+        Waiting for one more surprise... 💝
+      </button>
+    </div>
+
+    <div id="proposal" class="hidden">
+      <h2>So... after all that...</h2>
+      <h1>Will you be my Valentine? 💘</h1>
+      <div class="options">
+        <button type="button" id="yesBtn" onclick="sayYes()">YES! 💕</button>
+        <button type="button" id="noBtn" onclick="tryNo()">No 😢</button>
+      </div>
+    </div>
+  </form>
+
+  <div id="celebration" class="hidden">
+    <p class="celebration">YAYYYYY! I LOVE YOU TOO! 🎉❤️</p>
+    <p style="font-size:1.7rem; margin-top:35px;">
+      Your answers are on the way to me... 💌<br>
+      Wait just a second while the magic happens! 🥰
+    </p>
+  </div>
+</div>
+
+<script>
+let yesSize = 1;
+let noClicks = 0;
+let openedGifts = new Set();
+
+window.addEventListener('load', () => {
+  startFloatingItems(12);
+});
+
+function saveAnswer(q, value) {
+  document.getElementById('ans'+q).value = value;
+  nextQuestion(q);
+}
+
+function saveTextAnswer() {
+  document.getElementById('ans5').value = document.getElementById('answer5').value.trim() || "No answer written";
+  nextQuestion(5);
+}
+
+function nextQuestion(q) {
+  document.getElementById('q'+q).classList.add('hidden');
+  if (q < 5) {
+    document.getElementById('q'+(q+1)).classList.remove('hidden');
+  } else {
+    document.getElementById('quizPart').classList.add('hidden');
+    document.getElementById('giftsSection').classList.remove('hidden');
+    startFloatingItems(25);
+    checkAllGiftsOpened();
+  }
+}
+
+function tryOpen(boxNum) {
+  let input = (document.getElementById('pass' + boxNum)?.value || "").trim().toLowerCase();
+  let correct = false;
+
+  if (boxNum === 1) {
+    if (input.includes('slipper') || input.includes('t shirt') || input.includes('t-shirt') || input.includes('tshirt')) correct = true;
+  } else if (boxNum === 2) {
+    if (input.includes('pink')) correct = true;
+  }
+
+  if (correct) {
+    document.getElementById('lock' + boxNum).style.display = 'none';
+    document.getElementById('content' + boxNum).classList.remove('hidden');
+    document.getElementById('gift' + boxNum).style.transform = 'scale(1.08)';
+    document.getElementById('prog' + boxNum).classList.add('opened');
+    document.getElementById('prog' + boxNum).textContent = '❤️';
+    startFloatingItems(16);
+    openedGifts.add(boxNum);
+    checkAllGiftsOpened();
+  } else {
+    alert("Hmm... try again sweetie 😘");
+  }
+}
+
+function checkAllGiftsOpened() {
+  if (openedGifts.has(1) && openedGifts.has(2)) {
+    const btn = document.getElementById('continueToProposal');
+    btn.style.display = 'block';
+    btn.classList.add('visible');
+    // Scroll to button
+    setTimeout(() => btn.scrollIntoView({ behavior: 'smooth', block: 'center' }), 800);
+  }
+}
+
+function goToProposal() {
+  document.getElementById('giftsSection').classList.add('hidden');
+  document.getElementById('proposal').classList.remove('hidden');
+  startFloatingItems(20);
+}
+
+function tryNo() {
+  noClicks++;
+  yesSize += 0.45;
+  document.getElementById('yesBtn').style.transform = `scale(${yesSize})`;
+
+  if (noClicks >= 3) {
+    document.getElementById('noBtn').disabled = true;
+    document.getElementById('noBtn').textContent = "No? 😏 Too late~";
+    document.getElementById('proposalAns').value = 'YES (forced after 3 tries 😄)';
+    sayYes();
+  }
+}
+
+function sayYes() {
+  document.getElementById('proposalAns').value = 'YES';
+  document.getElementById('proposal').classList.add('hidden');
+  document.getElementById('celebration').classList.remove('hidden');
+
+  for (let i = 0; i < 3; i++) {
+    setTimeout(() => startFloatingItems(38), i * 600);
+  }
+
+  setTimeout(() => {
+    document.getElementById('valentineForm').submit();
+  }, 3400);
+}
+
+function startFloatingItems(count = 15) {
+  for (let i = 0; i < count; i++) {
+    const item = document.createElement('div');
+    item.className = 'float-item';
+    item.textContent = Math.random() > 0.6 ? '🎁' : (Math.random() > 0.4 ? '❤️' : '🧸');
+
+    const size = Math.random() * 2 + 1.8;
+    item.style.fontSize = size + 'rem';
+    item.style.left = Math.random() * 100 + 'vw';
+    item.style.animationDuration = (Math.random() * 14 + 10) + 's';
+    item.style.animationDelay = Math.random() * 4 + 's';
+    item.style.setProperty('--drift', (Math.random() - 0.5) * 360 + 'px');
+
+    document.body.appendChild(item);
+    setTimeout(() => item.remove(), 30000);
+  }
+}
+
+setInterval(() => startFloatingItems(8), 7000);
+</script>
+</body>
+</html>
