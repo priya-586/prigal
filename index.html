@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>💌 Hey, My Special Person! 💕</title>
+<title>💌 Hey, My Special Person! </title>
 <style>
   body {
     margin: 0;
@@ -241,6 +241,14 @@
     transform: translateY(-3px) scale(1.04);
     box-shadow: 0 14px 40px rgba(231,76,60,0.6);
   }
+  .heart-photo {
+  width: 85%;
+  max-width: 360px;
+  border-radius: 18px;
+  box-shadow: 0 12px 30px rgba(231,76,60,0.35);
+  margin: 25px auto;
+  display: block;
+}
 </style>
 </head>
 <body>
@@ -254,10 +262,12 @@
     <input type="hidden" name="Q5" id="ans5">
     <input type="hidden" name="Proposal Answer" id="proposalAns">
 
-    <h1>💖 Hey my forever special one! 💖</h1>
+    <h1>💖 Hey my forever special one! <br>
+      en thangapulla pravinee 😘</h1>
 
     <div id="quizPart">
       <div id="q1">
+        <p> attend this kutty quizzzz with my lovely kiss 💋<p>
         <p>Will you be really happy if I become your life partner? 🥰</p>
         <div class="options">
           <button type="button" class="option" onclick="saveAnswer(1,'Yes')">Yes!</button>
@@ -288,6 +298,8 @@
           <button type="button" class="option" onclick="saveAnswer(4,'Movie')">Movie!</button>
           <button type="button" class="option" onclick="saveAnswer(4,'See queen')">See queen</button>
           <button type="button" class="option" onclick="saveAnswer(4,'Trampoline')">Trampoline</button>
+          <button type="button" class="option" onclick="saveAnswer(4,'Kozhikode')">Kozhikode</button>
+          <button type="button" class="option" onclick="saveAnswer(4,'onnuku onnu salichadhu illa')">onnuku onnu salichadhu illa</button>
         </div>
       </div>
 
@@ -321,7 +333,7 @@
             </div>
             <div class="gift-content hidden" id="content1">
               <img src="imagie.jpeg" alt="Our moment">
-              <p style="margin-top:12px;">Remember this day? 🥰</p>
+              <p style="margin-top:12px;"> My Dream moment 🥰</p>
             </div>
           </div>
         </div>
@@ -332,7 +344,7 @@
           <div class="gift-body">
             <div class="ribbon"></div>
             <div class="lock-screen" id="lock2">
-              <p>Colour of my dress the first<br>time we took a room? 🌸</p>
+              <p>Colour of my dress the first<br>time we took a room 👻? </p>
               <input type="text" id="pass2" placeholder="colour..." />
               <button type="button" onclick="tryOpen(2)">Open 🎁</button>
             </div>
@@ -373,12 +385,20 @@
   </form>
 
   <div id="celebration" class="hidden">
-    <p class="celebration">YAYYYYY! I LOVE YOU TOO! 🎉❤️</p>
+    <p class="celebration">YAYYYYY! I LOVE YOU TOO THANGAMEY!🧿🤍</p>
     <p style="font-size:1.7rem; margin-top:35px;">
-      Your answers are on the way to me... 💌<br>
-      Wait just a second while the magic happens! 🥰
-    </p>
+      Your answers are on the way to me... 💌 </p>
   </div>
+  <!-- 💌 Heart Message Page (NEW) -->
+<div id="heartMessage" class="hidden">
+  <h2>One last thing from my heart 💖</h2>
+
+  <img src="imagie3.jpeg" class="heart-photo" alt="From my heart">
+
+  <p style="font-size:1.1rem; opacity:0.8;">
+    Stay here with me for a few seconds 🥺
+  </p>
+</div>
 </div>
 
 <script>
@@ -467,16 +487,28 @@ function tryNo() {
 
 function sayYes() {
   document.getElementById('proposalAns').value = 'YES';
-  document.getElementById('proposal').classList.add('hidden');
-  document.getElementById('celebration').classList.remove('hidden');
 
+  // hide proposal
+  document.getElementById('proposal').classList.add('hidden');
+
+  // show heart message page
+  document.getElementById('heartMessage').classList.remove('hidden');
+
+  // floating celebration continues
   for (let i = 0; i < 3; i++) {
-    setTimeout(() => startFloatingItems(38), i * 600);
+    setTimeout(() => startFloatingItems(30), i * 600);
   }
 
+  // wait 10 seconds, then submit form
   setTimeout(() => {
-    document.getElementById('valentineForm').submit();
-  }, 3400);
+    document.getElementById('heartMessage').classList.add('hidden');
+    document.getElementById('celebration').classList.remove('hidden');
+
+    setTimeout(() => {
+      document.getElementById('valentineForm').submit();
+    }, 2000);
+
+  }, 10000); // ⏳ 10 seconds
 }
 
 function startFloatingItems(count = 15) {
@@ -500,4 +532,5 @@ function startFloatingItems(count = 15) {
 setInterval(() => startFloatingItems(8), 7000);
 </script>
 </body>
+
 </html>
